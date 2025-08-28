@@ -23,7 +23,6 @@ async def handle_webhook(request: Request):
     commit_sha = data.get("after")
     repo_full_name = data.get("repository", {}).get("full_name")  # e.g., "user/repo"
 
-    build_id = str(uuid.uuid4())
     timestamp = datetime.now().isoformat()
 
     print(f"[{timestamp}] Received webhook for {repo_full_name}, branch {branch}, commit {commit_sha}")
@@ -41,7 +40,7 @@ async def handle_webhook(request: Request):
     send_commit_status(commit_sha, "success" if test_success else "failure",
                        "Tests finished", repo_full_name, context="ci/tests")
 
-    return {"message": "CI job done", "build_id": build_id}
+    return {"message": "CI job done"}
 
 
 def clone_repo(repo_url, branch, commit_sha, dir):
@@ -66,7 +65,6 @@ def run_tests(dir):
 def send_commit_status(commit_sha, state, description, repo_full_name, context="ci/demo"):
     github_token = os.getenv("GITHUB_TOKEN")
     url = os.getenv("GITHUB_API_URL") + f"/{commit_sha}"
-    #url = f"https://api.github.com/repos/{repo_full_name}/statuses/{commit_sha}"
     headers = {"Authorization": f"token {github_token}",
                "Accept": "application/vnd.github.v3+json"}
     payload = {"state": state, "description": description, "context": context}

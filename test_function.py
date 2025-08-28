@@ -15,6 +15,3 @@ class TestAddFunction(unittest.TestCase):
         self.assertEqual(add(0, 0), 0)
         self.assertEqual(add(0, 5), 5)
         self.assertEqual(add(7, 0), 7)
-
-if __name__ == "__main__":
-    unittest.main()
