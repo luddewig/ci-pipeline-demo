@@ -33,6 +33,7 @@ async def handle_webhook(request: Request):
 
         compile_success, compile_log = compile_project(temp_dir)
         test_success, test_log = run_tests(temp_dir)
+ 
 
     # Send statuses back to GitHub
     send_commit_status(commit_sha, "success" if compile_success else "failure",
@@ -56,7 +57,7 @@ def compile_project(dir):
     return success, result.stdout + result.stderr
 
 def run_tests(dir):
-    result = subprocess.run(f"cd {dir} && python -m unittest discover tests",
+    result = subprocess.run(f"cd {dir} && python -m unittest discover",
                             shell=True, capture_output=True, text=True)
     success = result.returncode == 0
     return success, result.stdout + result.stderr
