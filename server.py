@@ -18,15 +18,17 @@ app = FastAPI()
 async def handle_webhook(request: Request):
     data = await request.json()
 
+    # store necessary data
     repo_url = data.get("repository", {}).get("clone_url")
     branch = data.get("ref").split("/")[-1]
     commit_sha = data.get("after")
     repo_full_name = data.get("repository", {}).get("full_name")  # e.g., "user/repo"
 
+    # print information if you want
     timestamp = datetime.now().isoformat()
-
     print(f"[{timestamp}] Received webhook for {repo_full_name}, branch {branch}, commit {commit_sha}")
 
+    # create a teporary local repo where the code will be compiled and tests will be ran.
     with tempfile.TemporaryDirectory() as temp_dir:
         clone_repo(repo_url, branch, commit_sha, temp_dir)
 
@@ -34,9 +36,10 @@ async def handle_webhook(request: Request):
         test_success, test_log = run_tests(temp_dir)
  
 
-    # Send statuses back to GitHub
+    # Send compilation status back to GitHub
     send_commit_status(commit_sha, "success" if compile_success else "failure",
                        "Compilation finished", repo_full_name, context="ci/compile")
+    # Send compilation status back to GitHub
     send_commit_status(commit_sha, "success" if test_success else "failure",
                        "Tests finished", repo_full_name, context="ci/tests")
 
