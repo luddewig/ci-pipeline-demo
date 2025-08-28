@@ -55,7 +55,7 @@ def compile_project(dir):
     return success, result.stdout + result.stderr
 
 def run_tests(dir):
-    result = subprocess.run(f"cd {dir} && python -m unittest discover tests",
+    result = subprocess.run(f"cd {dir} && python -m unittest discover",
                             shell=True, capture_output=True, text=True)
     success = result.returncode == 0
     return success, result.stdout + result.stderr
