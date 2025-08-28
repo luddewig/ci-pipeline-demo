@@ -1,0 +1,24 @@
+# Ignore database file
+builds.db
+
+# Ignore Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Ignore virtual environments
+venv/
+env/
+.env
+
+# Ignore editor and IDE files
+.vscode/
+.idea/
+*.swp
+
+# Ignore dependency management
+requirements.txt.lock
+Pipfile.lock
+
+# Ignore system files
+.DS_Store
+Thumbs.db
