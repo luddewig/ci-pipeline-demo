@@ -64,7 +64,6 @@ def run_tests(dir):
 def send_commit_status(commit_sha, state, description, repo_full_name, context="ci/demo"):
     github_token = os.getenv("GITHUB_TOKEN")
     url = os.getenv("GITHUB_API_URL") + f"/{commit_sha}"
-    #url = f"https://api.github.com/repos/{repo_full_name}/statuses/{commit_sha}"
     headers = {"Authorization": f"token {github_token}",
                "Accept": "application/vnd.github.v3+json"}
     payload = {"state": state, "description": description, "context": context}
