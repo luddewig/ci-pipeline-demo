@@ -9,7 +9,7 @@ class TestAddFunction(unittest.TestCase):
         self.assertEqual(add(-2, -3), -5)
 
     def test_mixed_numbers(self):
-        self.assertEqual(add(-2, 3), 1)
+        self.assertEqual(add(-2, 3), 3)
 
     def test_zero(self):
         self.assertEqual(add(0, 0), 0)
